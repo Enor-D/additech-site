@@ -1,49 +1,987 @@
-<!DOCTYPE html>
+from pathlib import Path
+import base64
+
+logo_path = Path('/mnt/data/Additech Logo (picture).png')
+logo_b64 = base64.b64encode(logo_path.read_bytes()).decode('ascii')
+
+html = f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ADDITECH</title>
+  <title>ADDITECH — Аддитивные технологии и 3D-печать металлом</title>
+  <meta name="description" content="ADDITECH — аддитивные технологии, 3D-печать металлом, инженерия, подбор материалов, производство и постобработка в Алматы." />
   <style>
-    body {
+    :root {{
+      --bg: #0c0c0d;
+      --bg-soft: #141416;
+      --panel: #17181b;
+      --panel-2: #1e2024;
+      --text: #f3f3f1;
+      --muted: #b9b8b4;
+      --line: rgba(255,255,255,0.08);
+      --copper: #b87333;
+      --copper-2: #d39a63;
+      --white: #ffffff;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius: 24px;
+      --max: 1220px;
+    }}
+
+    * {{ box-sizing: border-box; }}
+    html {{ scroll-behavior: smooth; }}
+    body {{
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0e0e0e;
-      color: white;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(184,115,51,0.18), transparent 20%),
+        radial-gradient(circle at left center, rgba(255,255,255,0.05), transparent 22%),
+        linear-gradient(180deg, #0a0a0b 0%, #101113 100%);
+      color: var(--text);
+      line-height: 1.55;
+    }}
+
+    a {{ color: inherit; text-decoration: none; }}
+    img {{ max-width: 100%; display: block; }}
+
+    .container {{
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }}
+
+    .pill {{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(184,115,51,0.35);
+      background: rgba(184,115,51,0.10);
+      color: #f4d1ae;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+    }}
+
+    .section {{
+      padding: 84px 0;
+      border-top: 1px solid var(--line);
+    }}
+
+    .section-title {{
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1.08;
+      margin: 0;
+      letter-spacing: -0.03em;
+    }}
+
+    .section-subtitle {{
+      color: var(--muted);
+      max-width: 760px;
+      margin-top: 16px;
+      font-size: 18px;
+    }}
+
+    .topbar {{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(10, 10, 11, 0.76);
+      border-bottom: 1px solid var(--line);
+    }}
+
+    .nav {{
       display: flex;
-      min-height: 100vh;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 78px;
+    }}
+
+    .brand {{
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }}
+
+    .brand img {{
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: #efefef;
+      padding: 4px;
+    }}
+
+    .nav-links {{
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: #d8d7d3;
+      font-size: 15px;
+    }}
+
+    .nav-links a:hover {{ color: var(--white); }}
+
+    .btn {{
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 40px;
-    }
-    .box {
-      max-width: 700px;
-    }
-    h1 {
-      font-size: 52px;
-      margin-bottom: 16px;
-    }
-    p {
-      font-size: 20px;
-      color: #d0d0d0;
-      margin-bottom: 24px;
-    }
-    a {
-      display: inline-block;
-      padding: 14px 24px;
-      background: #b87333;
+      gap: 10px;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 16px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      transition: 0.2s ease;
+      cursor: pointer;
+    }}
+
+    .btn:hover {{
+      transform: translateY(-1px);
+    }}
+
+    .btn-primary {{
+      background: linear-gradient(135deg, var(--copper), var(--copper-2));
       color: white;
-      text-decoration: none;
-      border-radius: 10px;
-    }
+      box-shadow: 0 10px 30px rgba(184,115,51,0.28);
+    }}
+
+    .btn-secondary {{
+      border-color: var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--white);
+    }}
+
+    .hero {{
+      padding: 84px 0 56px;
+      position: relative;
+      overflow: hidden;
+    }}
+
+    .hero-grid {{
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 34px;
+      align-items: center;
+    }}
+
+    .hero h1 {{
+      margin: 18px 0 18px;
+      font-size: clamp(40px, 6vw, 78px);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      max-width: 900px;
+    }}
+
+    .hero p {{
+      color: var(--muted);
+      font-size: 20px;
+      max-width: 760px;
+      margin: 0;
+    }}
+
+    .hero-actions {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }}
+
+    .hero-side {{
+      display: grid;
+      gap: 18px;
+    }}
+
+    .hero-card {{
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }}
+
+    .hero-card strong {{
+      display: block;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }}
+
+    .hero-stats {{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }}
+
+    .stat {{
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+    }}
+
+    .stat b {{
+      display: block;
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: #ffd1aa;
+    }}
+
+    .grid-2 {{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }}
+
+    .grid-3 {{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }}
+
+    .grid-4 {{
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }}
+
+    .card {{
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }}
+
+    .card h3 {{
+      margin: 0 0 10px;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }}
+
+    .card p {{
+      margin: 0;
+      color: var(--muted);
+    }}
+
+    .eyebrow {{
+      display: inline-block;
+      margin-bottom: 14px;
+      color: #f0b984;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 12px;
+      font-weight: 700;
+    }}
+
+    .list {{
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }}
+
+    .list-item {{
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid var(--line);
+      color: #e9e7e3;
+    }}
+
+    .dot {{
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--copper), var(--copper-2));
+      margin-top: 8px;
+      flex: 0 0 auto;
+    }}
+
+    .equipment {{
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      align-items: stretch;
+    }}
+
+    .machine-box {{
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background:
+        linear-gradient(160deg, rgba(184,115,51,0.18), transparent 40%),
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }}
+
+    .machine-visual {{
+      margin-top: 12px;
+      border-radius: 24px;
+      border: 1px dashed rgba(255,255,255,0.16);
+      min-height: 250px;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 70% 30%, rgba(184,115,51,0.22), transparent 24%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    }}
+
+    .machine-visual .frame {{
+      width: min(100%, 420px);
+      aspect-ratio: 1.15 / 0.9;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,0.18);
+      position: relative;
+      background: linear-gradient(180deg, #1e2228, #131518);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    }}
+
+    .machine-visual .frame::before {{
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: 20px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+    }}
+
+    .machine-visual .window {{
+      position: absolute;
+      top: 22%;
+      left: 17%;
+      width: 36%;
+      height: 40%;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(184,115,51,0.34), rgba(255,255,255,0.06));
+      border: 1px solid rgba(255,255,255,0.18);
+      z-index: 2;
+    }}
+
+    .machine-visual .panel {{
+      position: absolute;
+      right: 15%;
+      top: 18%;
+      width: 18%;
+      height: 48%;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.15);
+      z-index: 2;
+    }}
+
+    .machine-visual .base {{
+      position: absolute;
+      left: 12%;
+      right: 12%;
+      bottom: 10%;
+      height: 10%;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      z-index: 2;
+    }}
+
+    .materials-grid {{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 26px;
+    }}
+
+    .material {{
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 20px;
+    }}
+
+    .material b {{
+      display: block;
+      margin-bottom: 10px;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      color: #ffd1aa;
+    }}
+
+    .chips {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }}
+
+    .chip {{
+      border: 1px solid rgba(255,255,255,0.09);
+      background: rgba(255,255,255,0.03);
+      color: #e7e5e1;
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+    }}
+
+    .cases {{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      margin-top: 28px;
+    }}
+
+    .case {{
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at top right, rgba(184,115,51,0.18), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }}
+
+    .case h3 {{
+      margin: 0 0 8px;
+      font-size: 26px;
+    }}
+
+    .case .meta {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }}
+
+    .case .meta span {{
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: #ece9e4;
+      font-size: 14px;
+    }}
+
+    .process {{
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 28px;
+    }}
+
+    .step {{
+      padding: 22px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+    }}
+
+    .step .num {{
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--copper), var(--copper-2));
+      margin-bottom: 14px;
+    }}
+
+    .contact-box {{
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 26px;
+    }}
+
+    .contact-grid {{
+      display: grid;
+      gap: 14px;
+    }}
+
+    .contact-row {{
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+    }}
+
+    .contact-row small {{
+      display: block;
+      color: var(--muted);
+      margin-bottom: 4px;
+      font-size: 13px;
+    }}
+
+    .footer {{
+      padding: 26px 0 40px;
+      color: #b9b8b4;
+      border-top: 1px solid var(--line);
+      font-size: 14px;
+    }}
+
+    .whatsapp {{
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 60;
+      min-width: 62px;
+      height: 62px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #25d366, #0aa54f);
+      color: white;
+      box-shadow: 0 18px 34px rgba(0,0,0,0.26);
+      font-weight: 800;
+      padding: 0 22px;
+    }}
+
+    .whatsapp span {{
+      display: none;
+      margin-left: 10px;
+      font-size: 15px;
+      font-weight: 700;
+    }}
+
+    .whatsapp:hover span {{
+      display: inline;
+    }}
+
+    @media (max-width: 1080px) {{
+      .hero-grid, .grid-4, .grid-3, .equipment, .contact-box, .process {{
+        grid-template-columns: 1fr 1fr;
+      }}
+      .materials-grid {{
+        grid-template-columns: 1fr 1fr;
+      }}
+    }}
+
+    @media (max-width: 760px) {{
+      .nav {{
+        min-height: auto;
+        padding: 16px 0;
+        flex-direction: column;
+        align-items: flex-start;
+      }}
+      .nav-links {{
+        flex-wrap: wrap;
+        gap: 12px 16px;
+      }}
+      .hero {{
+        padding-top: 48px;
+      }}
+      .hero-grid, .grid-2, .grid-3, .grid-4, .equipment, .materials-grid, .cases, .process, .contact-box {{
+        grid-template-columns: 1fr;
+      }}
+      .hero-stats {{
+        grid-template-columns: 1fr;
+      }}
+      .container {{
+        width: min(var(--max), calc(100% - 24px));
+      }}
+      .section {{
+        padding: 62px 0;
+      }}
+      .whatsapp {{
+        right: 14px;
+        bottom: 14px;
+      }}
+    }}
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>ADDITECH</h1>
-    <p>Аддитивные технологии и 3D-печать металлом</p>
-    <a href="mailto:desk@additech.kz">Связаться</a>
-  </div>
+  <header class="topbar">
+    <div class="container nav">
+      <a href="#top" class="brand">
+        <img src="data:image/png;base64,{logo_b64}" alt="ADDITECH logo" />
+        <span>ADDITECH</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#about">О компании</a>
+        <a href="#technology">Технологии</a>
+        <a href="#equipment">Оборудование</a>
+        <a href="#materials">Материалы</a>
+        <a href="#cases">Кейсы</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="pill">Алматы · Аддитивные технологии · 3D-печать металлом</div>
+          <h1>Инженерные решения и производство металлических изделий с помощью аддитивных технологий</h1>
+          <p>
+            ADDITECH — компания, развивающая технологии LPBF / PBF 3D-печати металлом в Казахстане.
+            Мы сопровождаем проект от инженерной идеи и технологической оптимизации до изготовления,
+            постобработки и подготовки изделия к внедрению.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contacts">Обсудить проект</a>
+            <a class="btn btn-secondary" href="#cases">Смотреть кейсы</a>
+          </div>
+        </div>
+
+        <div class="hero-side">
+          <div class="hero-card">
+            <span class="eyebrow">Концепция</span>
+            <strong>Concept to Reality. Layer by Layer.</strong>
+            <p>
+              Полный производственный цикл для промышленных, энергетических, нефтегазовых и аэрокосмических задач.
+            </p>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat">
+              <b>LPBF / PBF</b>
+              <span>Послойное лазерное плавление металлического порошка</span>
+            </div>
+            <div class="stat">
+              <b>200–250 м²</b>
+              <span>Минимальная площадь для компактной производственной площадки</span>
+            </div>
+            <div class="stat">
+              <b>Alfa 150D</b>
+              <span>150 × 150 × 180 мм рабочая камера</span>
+            </div>
+            <div class="stat">
+              <b>Alfa 280</b>
+              <span>280 × 280 × 500 мм рабочая камера</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container">
+        <span class="eyebrow">О компании</span>
+        <h2 class="section-title">Вертикально интегрированный подход — от проектирования до сертификации изделий</h2>
+        <p class="section-subtitle">
+          ADDITECH создана для развития аддитивных технологий в Казахстане. Компания работает с инженерными и производственными задачами,
+          где важны сложная геометрия, быстрые сроки изготовления, снижение отходов и гибкость мелкосерийного производства.
+        </p>
+
+        <div class="grid-3" style="margin-top:28px;">
+          <div class="card">
+            <h3>Инжиниринг</h3>
+            <p>Анализ детали, оптимизация конструкции под аддитивное производство, подготовка модели и сопровождение внедрения.</p>
+          </div>
+          <div class="card">
+            <h3>Производство</h3>
+            <p>3D-печать металлом по технологии Powder Bed Fusion для прототипов, функциональных компонентов и малых серий.</p>
+          </div>
+          <div class="card">
+            <h3>Контроль качества</h3>
+            <p>Постобработка, доводка геометрии, контроль параметров и выпуск изделий под практическое применение.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="technology" class="section">
+      <div class="container">
+        <span class="eyebrow">Технологии</span>
+        <h2 class="section-title">Почему LPBF / PBF — сильный инструмент для современного производства</h2>
+        <p class="section-subtitle">
+          Послойное лазерное плавление металлического порошка позволяет создавать детали, которые трудно или невозможно изготовить традиционными методами.
+        </p>
+
+        <div class="grid-2" style="margin-top:28px;">
+          <div class="card">
+            <h3>Преимущества технологии</h3>
+            <div class="list">
+              <div class="list-item"><span class="dot"></span><span>Быстрое прототипирование и сокращённый производственный цикл</span></div>
+              <div class="list-item"><span class="dot"></span><span>Высокая геометрическая сложность и внутренние структуры</span></div>
+              <div class="list-item"><span class="dot"></span><span>Экономичность для мелкосерийного производства и производства по требованию</span></div>
+              <div class="list-item"><span class="dot"></span><span>Снижение отходов и более эффективное использование материалов</span></div>
+              <div class="list-item"><span class="dot"></span><span>Возможность оптимизации под конкретные эксплуатационные условия</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Где это применяется</h3>
+            <div class="list">
+              <div class="list-item"><span class="dot"></span><span>Металлургия</span></div>
+              <div class="list-item"><span class="dot"></span><span>Нефтегазовая отрасль</span></div>
+              <div class="list-item"><span class="dot"></span><span>Энергетика</span></div>
+              <div class="list-item"><span class="dot"></span><span>Аэрокосмические проекты</span></div>
+              <div class="list-item"><span class="dot"></span><span>Промышленный R&amp;D и сложные инженерные компоненты</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="equipment" class="section">
+      <div class="container">
+        <span class="eyebrow">Оборудование</span>
+        <h2 class="section-title">Промышленные установки для 3D-печати металлом</h2>
+        <p class="section-subtitle">
+          Конфигурация оборудования позволяет выпускать как компактные функциональные детали, так и более крупные компоненты для инженерных задач.
+        </p>
+
+        <div class="equipment" style="margin-top:28px;">
+          <div class="machine-box">
+            <div class="eyebrow">Производственная база</div>
+            <h3 style="margin:0 0 12px; font-size:34px;">Alfa 150D и Alfa 280</h3>
+            <p style="color:var(--muted); margin:0 0 14px;">
+              Две конфигурации рабочих камер под разные типоразмеры изделий и прототипов.
+            </p>
+
+            <div class="grid-2" style="margin-top:18px;">
+              <div class="card" style="padding:20px;">
+                <h3 style="font-size:20px;">Alfa 150D</h3>
+                <p>Рабочая камера: 150 × 150 × 180 мм</p>
+              </div>
+              <div class="card" style="padding:20px;">
+                <h3 style="font-size:20px;">Alfa 280</h3>
+                <p>Рабочая камера: 280 × 280 × 500 мм</p>
+              </div>
+            </div>
+
+            <div class="machine-visual">
+              <div class="frame">
+                <div class="window"></div>
+                <div class="panel"></div>
+                <div class="base"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding:28px;">
+            <h3>Компактная производственная площадка</h3>
+            <p>
+              В рамках деятельности требования к площадке минимальны — производство можно разместить на территории порядка 200–250 м²,
+              включая оборудование, подготовку и рабочие зоны.
+            </p>
+
+            <div class="list" style="margin-top:22px;">
+              <div class="list-item"><span class="dot"></span><span>Технология: Laser Powder Bed Fusion</span></div>
+              <div class="list-item"><span class="dot"></span><span>Металлический порошок как основа производственного процесса</span></div>
+              <div class="list-item"><span class="dot"></span><span>Послойное лазерное плавление для точного формирования сложной геометрии</span></div>
+              <div class="list-item"><span class="dot"></span><span>Подходит для прототипов, функциональных тестов и серий малого объёма</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="materials" class="section">
+      <div class="container">
+        <span class="eyebrow">Материалы</span>
+        <h2 class="section-title">Широкий спектр порошков для инженерных и высоконагруженных изделий</h2>
+        <p class="section-subtitle">
+          ADDITECH работает с алюминием, медью, никелевыми сплавами, сталями, титаном и специальными материалами — в зависимости от задачи,
+          среды эксплуатации и требуемых механических свойств.
+        </p>
+
+        <div class="materials-grid">
+          <div class="material">
+            <b>ALUMINUM</b>
+            <div class="chips">
+              <span class="chip">AlSi10Mg</span>
+              <span class="chip">Al7075</span>
+              <span class="chip">AlMg</span>
+              <span class="chip">Al4047</span>
+            </div>
+          </div>
+          <div class="material">
+            <b>COPPER</b>
+            <div class="chips">
+              <span class="chip">CuCrZr</span>
+              <span class="chip">CuSn</span>
+              <span class="chip">Cu 99%</span>
+            </div>
+          </div>
+          <div class="material">
+            <b>NICKEL</b>
+            <div class="chips">
+              <span class="chip">Inconel 625</span>
+              <span class="chip">Inconel 718</span>
+              <span class="chip">Ni 99%</span>
+            </div>
+          </div>
+          <div class="material">
+            <b>IRON / STEEL</b>
+            <div class="chips">
+              <span class="chip">42CrMo4</span>
+              <span class="chip">SS304</span>
+              <span class="chip">SS316L</span>
+            </div>
+          </div>
+          <div class="material">
+            <b>TITANIUM</b>
+            <div class="chips">
+              <span class="chip">Titanium Gr.1</span>
+              <span class="chip">Titanium Gr.2</span>
+              <span class="chip">Titanium Gr.5</span>
+              <span class="chip">Ti6Al4V</span>
+            </div>
+          </div>
+          <div class="material">
+            <b>REFRACTORY / SPECIAL</b>
+            <div class="chips">
+              <span class="chip">Nb 99%</span>
+              <span class="chip">Ta 99%</span>
+              <span class="chip">W90Ni7Fe3</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cases" class="section">
+      <div class="container">
+        <span class="eyebrow">Кейсы</span>
+        <h2 class="section-title">Примеры практического применения аддитивных технологий</h2>
+        <p class="section-subtitle">
+          Ниже собраны реальные примеры из презентации: аэрокосмические и высокотехнологичные компоненты, изготовленные с использованием металлической 3D-печати.
+        </p>
+
+        <div class="cases">
+          <article class="case">
+            <h3>Ракетный двигатель</h3>
+            <p>Топливо — ПВТ / керосин. Тяга главного двигателя в вакууме — 350 кг. Материал — IN 718. Срок изготовления — 3 недели.</p>
+            <div class="meta">
+              <span>IN 718</span>
+              <span>350 кг тяги</span>
+              <span>3 недели</span>
+            </div>
+          </article>
+
+          <article class="case">
+            <h3>ТНА для ЖРД</h3>
+            <p>Изготовление деталей из Ti6Al4V и Inconel 718 с длительностью печати отдельных компонентов от 22 до 46 часов.</p>
+            <div class="meta">
+              <span>Ti6Al4V</span>
+              <span>Inconel 718</span>
+              <span>22–46 часов</span>
+            </div>
+          </article>
+
+          <article class="case">
+            <h3>Ракетное сопло</h3>
+            <p>Материал — IN 718. Четыре детали объединены в одну конструкцию. Срок изготовления — 3 дня.</p>
+            <div class="meta">
+              <span>IN 718</span>
+              <span>4 детали → 1</span>
+              <span>3 дня</span>
+            </div>
+          </article>
+
+          <article class="case">
+            <h3>Импульсный гибридный ракетный двигатель</h3>
+            <p>Работает на твёрдом топливе и кислороде. Материалы — Inconel 718 и AISI 316L. Срок изготовления — 3 дня.</p>
+            <div class="meta">
+              <span>Inconel 718</span>
+              <span>AISI 316L</span>
+              <span>3 дня</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <span class="eyebrow">Как мы работаем</span>
+        <h2 class="section-title">От задачи клиента до готового изделия</h2>
+        <div class="process">
+          <div class="step">
+            <div class="num">1</div>
+            <h3>Анализ задачи</h3>
+            <p>Изучаем деталь, назначение, нагрузки, среду эксплуатации и требования к срокам.</p>
+          </div>
+          <div class="step">
+            <div class="num">2</div>
+            <h3>Инженерная оптимизация</h3>
+            <p>Адаптируем конструкцию под аддитивное производство и подбираем материал.</p>
+          </div>
+          <div class="step">
+            <div class="num">3</div>
+            <h3>Печать и постобработка</h3>
+            <p>Производим изделие, проводим обработку, доводку и контроль качества.</p>
+          </div>
+          <div class="step">
+            <div class="num">4</div>
+            <h3>Передача результата</h3>
+            <p>Отгружаем готовую деталь или партию для тестирования, внедрения и эксплуатации.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacts" class="section">
+      <div class="container">
+        <span class="eyebrow">Контакты</span>
+        <h2 class="section-title">Готовы обсудить ваш проект</h2>
+        <p class="section-subtitle">
+          Напишите нам, если вам нужна технологическая консультация, расчёт, подбор материала, изготовление прототипа или мелкосерийной партии.
+        </p>
+
+        <div class="contact-box">
+          <div class="card" style="padding:28px;">
+            <h3 style="font-size:30px; margin-bottom:12px;">ADDITECH</h3>
+            <p style="margin-bottom:22px;">
+              Аддитивные технологии и 3D-печать металлом для промышленности, энергетики, нефтегаза и high-tech проектов.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="mailto:desk@additech.kz">Отправить запрос</a>
+              <a class="btn btn-secondary" href="https://wa.me/77015201785" target="_blank" rel="noopener">WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="contact-grid">
+            <div class="contact-row">
+              <small>Телефон 1</small>
+              <a href="tel:+77754844480">+7 775 48 444 80</a>
+            </div>
+            <div class="contact-row">
+              <small>Телефон 2</small>
+              <a href="tel:+77015201785">+7 701 520 17 85</a>
+            </div>
+            <div class="contact-row">
+              <small>Email</small>
+              <a href="mailto:desk@additech.kz">desk@additech.kz</a>
+            </div>
+            <div class="contact-row">
+              <small>Адрес</small>
+              <span>г. Алматы, пр. Аль-Фараби 7к5а</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container" style="display:flex; flex-wrap:wrap; gap:14px; justify-content:space-between;">
+      <span>© ADDITECH</span>
+      <span>Аддитивные технологии · 3D-печать металлом · Алматы</span>
+    </div>
+  </footer>
+
+  <a class="whatsapp" href="https://wa.me/77015201785" target="_blank" rel="noopener" aria-label="Написать в WhatsApp">
+    <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M16.03 4C9.43 4 4.08 9.24 4.08 15.69c0 2.06.56 4.07 1.63 5.84L4 28l6.67-1.73a12.1 12.1 0 0 0 5.36 1.25h.01c6.6 0 11.95-5.25 11.95-11.7C28 9.25 22.63 4 16.03 4Zm6.94 16.38c-.29.8-1.71 1.52-2.38 1.63-.61.1-1.38.14-2.22-.11-.52-.16-1.2-.39-2.07-.75-3.64-1.54-6-5.14-6.18-5.38-.17-.24-1.48-1.92-1.48-3.66 0-1.74.92-2.6 1.24-2.95.33-.35.72-.43.96-.43.24 0 .48 0 .69.01.22.01.5-.08.79.62.29.7.99 2.42 1.08 2.6.09.18.15.39.03.63-.12.24-.18.39-.36.6-.18.21-.38.47-.54.63-.18.18-.36.37-.15.73.21.35.94 1.53 2.01 2.47 1.38 1.21 2.54 1.58 2.89 1.75.36.18.56.15.77-.09.21-.24.9-1.03 1.14-1.39.24-.35.48-.29.81-.17.33.12 2.11.97 2.47 1.15.36.18.6.27.69.42.09.15.09.89-.2 1.69Z" fill="white"/>
+    </svg>
+    <span>WhatsApp</span>
+  </a>
 </body>
 </html>
+"""
+
+out = Path("/mnt/data/additech_index.html")
+out.write_text(html, encoding="utf-8")
+print(f"Created {out}")
