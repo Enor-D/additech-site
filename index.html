@@ -92,6 +92,113 @@
     .reveal.in-view { opacity:1; transform:translateY(0); }
     @media (max-width:1100px) { .split,.mosaic,.contact{grid-template-columns:1fr;} .gallery-grid,.materials,.contract-grid,.stats-grid,.team-grid{grid-template-columns:1fr 1fr;} .media.tall{min-height:520px;} .hero-strip{grid-template-columns:1fr 1fr;} }
     @media (max-width:760px) { .container{width:min(var(--max),calc(100% - 22px));} .nav{min-height:auto; padding:14px 0; flex-direction:column; align-items:flex-start;} .hero-content{padding-top:108px;} .hero-strip,.gallery-grid,.materials,.contact,.contract-grid,.stats-grid,.team-grid{grid-template-columns:1fr;} .section{padding:76px 0;} h1{max-width:100%;} }
+  /* ===== MOBILE FIX (PREMIUM VERSION) ===== */
+@media (max-width: 760px) {
+
+  .container {
+    width: min(var(--max), calc(100% - 20px));
+  }
+
+  .topbar {
+    padding: 0;
+  }
+
+  .nav {
+    min-height: auto;
+    padding: 12px 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand img {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Убираем перегруженное меню */
+  .nav-links {
+    display: none;
+  }
+
+  /* HERO */
+  .hero-content {
+    padding-top: 110px;
+    padding-bottom: 28px;
+  }
+
+  h1 {
+    font-size: 34px;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+  }
+
+  .lead {
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  /* ВСЕ СЕТКИ В ОДНУ КОЛОНКУ */
+  .hero-strip,
+  .gallery-grid,
+  .materials,
+  .contact,
+  .contract-grid,
+  .stats-grid,
+  .team-grid,
+  .split,
+  .mosaic {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ОТСТУПЫ */
+  .section {
+    padding: 70px 0;
+  }
+
+  .section-title {
+    font-size: 30px;
+  }
+
+  .section-sub {
+    font-size: 16px;
+  }
+
+  /* КАРТОЧКИ */
+  .panel,
+  .stat-card,
+  .contract-card,
+  .team-card,
+  .mat {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  /* ФОТО КОМАНДЫ */
+  .team-card img {
+    aspect-ratio: 4 / 4.6;
+  }
+
+  /* WHATSAPP */
+  .whatsapp {
+    right: 12px;
+    bottom: 12px;
+    min-height: 42px;
+    padding: 0 12px;
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+}
   </style>
 </head>
 <body>
