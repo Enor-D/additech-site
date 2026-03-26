@@ -84,12 +84,13 @@
     }
 
     .brand img {
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
-      padding: 4px;
-      background: #f1f1f1;
+      width: 52px;
+      height: 52px;
+      border-radius: 0;
+      padding: 0;
+      background: transparent;
       object-fit: contain;
+      display: block;
     }
 
     .nav-links {
@@ -551,17 +552,19 @@
       right: 18px;
       bottom: 18px;
       z-index: 90;
-      min-height: 60px;
-      padding: 0 18px;
+      min-height: 48px;
+      padding: 0 14px;
       border-radius: 999px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
       background: linear-gradient(135deg, #25d366, #0ca651);
       color: white;
-      font-weight: 800;
-      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.3);
+      font-weight: 700;
+      font-size: 13px;
+      opacity: 0.85;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
     }
 
     .reveal {
@@ -637,7 +640,7 @@
   <header class="topbar">
     <div class="container nav">
       <a href="#top" class="brand">
-        <img src="logo.svg" alt="ADDITECH logo" />
+        <img src="Additech Logo (picture).png" alt="ADDITECH logo" />
         <span>ADDITECH</span>
       </a>
 
@@ -647,6 +650,7 @@
         <a href="#cases">Кейсы</a>
         <a href="#contracts">Крупные контракты</a>
         <a href="#materials">Материалы</a>
+        <a href="#team">Команда</a>
         <a href="#contacts">Контакты</a>
       </nav>
     </div>
@@ -1092,6 +1096,42 @@
         </div>
       </div>
     </section>
+
+    <section id="team" class="section">
+      <div class="container">
+        <h2 class="section-title">Команда</h2>
+        <p class="section-sub">
+          Команда ADDITECH объединяет инженерную, управленческую и инвестиционную экспертизу для реализации сложных производственных и технологических проектов.
+        </p>
+
+        <div class="contract-grid reveal">
+          <div class="contract-card">
+            <h3>Aibar Rakhymberdiyev</h3>
+            <p style="color: var(--muted); margin: 0 0 10px;">CEO | COO</p>
+            <p style="color: var(--muted); margin: 0;">
+              MSc. in Advanced Materials Science and Engineering, Imperial College London.
+            </p>
+          </div>
+
+          <div class="contract-card">
+            <h3>Dmytro Dudchenko</h3>
+            <p style="color: var(--muted); margin: 0 0 10px;">CTO | Project Manager</p>
+            <p style="color: var(--muted); margin: 0;">
+              Инженерный и проектный опыт в ракетно-космических комплексах и авиационных конструкциях.
+            </p>
+          </div>
+
+          <div class="contract-card">
+            <h3>Eldar Zhumabekov, CFA</h3>
+            <p style="color: var(--muted); margin: 0 0 10px;">CFO | Investment Manager</p>
+            <p style="color: var(--muted); margin: 0;">
+              Экспертиза в инвестициях, family office, asset management и commodities.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer">
